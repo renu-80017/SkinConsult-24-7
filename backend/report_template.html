@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    @page {
+        size: A4;
+        margin: 0;
+    }
+    body {
+        font-family: Helvetica, Arial, sans-serif;
+        color: #1e293b;
+        margin: 0;
+        padding: 0;
+        font-size: 11px;
+    }
+
+    /* --- Header Banner --- */
+    .header-banner {
+        background-color: #1d4ed8;
+        color: #ffffff;
+        padding: 28px 40px;
+        text-align: center;
+    }
+    .header-banner h1 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+    }
+    .header-banner p {
+        margin: 6px 0 0 0;
+        font-size: 12px;
+        color: #dbeafe;
+    }
+
+    .content {
+        padding: 24px 40px;
+    }
+
+    /* --- Info Table (Patient + Report Meta) --- */
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: #f8fafc;
+        border-radius: 6px;
+    }
+    .info-table td {
+        padding: 6px 12px;
+        font-size: 11px;
+        vertical-align: top;
+    }
+    .info-label {
+        color: #64748b;
+        font-weight: bold;
+        width: 90px;
+    }
+    .info-value {
+        color: #1e293b;
+    }
+    .section-heading {
+        background-color: #eff6ff;
+        color: #1d4ed8;
+        font-size: 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 8px 12px;
+        margin-top: 18px;
+        margin-bottom: 0;
+        border-left: 4px solid #1d4ed8;
+    }
+
+    /* --- Result Highlight Box --- */
+    .result-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 18px;
+        margin-bottom: 4px;
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+    }
+    .result-table td {
+        padding: 16px 18px;
+        vertical-align: middle;
+    }
+    .result-model-tag {
+        color: #1d4ed8;
+        font-size: 9px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
+    .result-prediction {
+        font-size: 20px;
+        font-weight: bold;
+        color: #0f172a;
+        margin: 4px 0;
+    }
+    .confidence-badge {
+        display: inline-block;
+        background-color: #1d4ed8;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: bold;
+        padding: 6px 14px;
+        border-radius: 20px;
+    }
+    .confidence-gauge-bg {
+        background-color: #dbeafe;
+        border-radius: 6px;
+        height: 10px;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .confidence-gauge-fill {
+        background-color: #1d4ed8;
+        height: 10px;
+        border-radius: 6px;
+    }
+
+    /* --- Generic content section --- */
+    .content-section {
+        padding: 10px 4px 4px 4px;
+        margin-bottom: 6px;
+    }
+    .content-section p {
+        margin: 4px 0;
+        line-height: 1.5;
+    }
+
+    ul.styled-list {
+        margin: 6px 0;
+        padding-left: 0;
+        list-style: none;
+    }
+    ul.styled-list li {
+        padding: 6px 0 6px 20px;
+        border-bottom: 1px solid #f1f5f9;
+        position: relative;
+        font-size: 11px;
+    }
+    ul.styled-list li:before {
+        content: "\2022";
+        color: #1d4ed8;
+        font-weight: bold;
+        position: absolute;
+        left: 4px;
+    }
+
+    /* --- Alternatives bars --- */
+    .alt-row {
+        margin-bottom: 6px;
+    }
+    .alt-label {
+        font-size: 10px;
+        color: #334155;
+    }
+    .alt-bar-bg {
+        background-color: #e2e8f0;
+        border-radius: 4px;
+        height: 8px;
+        width: 100%;
+    }
+    .alt-bar-fill {
+        background-color: #3b82f6;
+        height: 8px;
+        border-radius: 4px;
+    }
+
+    /* --- Image --- */
+    .image-frame {
+        text-align: center;
+        padding: 10px;
+    }
+    .image-frame img {
+        max-width: 220px;
+        max-height: 220px;
+        border-radius: 8px;
+        border: 3px solid #1d4ed8;
+    }
+
+    /* --- Doctor visit callout --- */
+    .doctor-callout {
+        background-color: #fef2f2;
+        border: 1px solid #fecaca;
+        border-left: 4px solid #dc2626;
+        border-radius: 6px;
+        padding: 12px 16px;
+        margin-top: 16px;
+        font-size: 11px;
+        color: #7f1d1d;
+    }
+    .doctor-callout .title {
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+    }
+
+    /* --- Disclaimer --- */
+    .disclaimer-box {
+        margin-top: 22px;
+        padding: 12px 16px;
+        background-color: #fffbeb;
+        border: 1px solid #fde68a;
+        border-radius: 6px;
+        font-size: 9px;
+        color: #78350f;
+        line-height: 1.5;
+    }
+
+    /* --- Footer --- */
+    .footer {
+        margin-top: 24px;
+        text-align: center;
+        font-size: 9px;
+        color: #94a3b8;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="header-banner">
+    <h1>SkinConsult 24/7</h1>
+    <p>AI-Assisted Skin Analysis Report</p>
+</div>
+
+<div class="content">
+
+    <table class="info-table">
+        <tr>
+            <td class="info-label">Name</td>
+            <td class="info-value">{{ patient_name }}</td>
+            <td class="info-label">Report ID</td>
+            <td class="info-value">{{ consultation_id }}</td>
+        </tr>
+        <tr>
+            <td class="info-label">Age</td>
+            <td class="info-value">{{ patient_age }}</td>
+            <td class="info-label">Date</td>
+            <td class="info-value">{{ report_date }}</td>
+        </tr>
+        <tr>
+            <td class="info-label">Gender</td>
+            <td class="info-value">{{ patient_gender }}</td>
+            <td class="info-label">Blood Group</td>
+            <td class="info-value">{{ patient_blood_group }}</td>
+        </tr>
+        <tr>
+            <td class="info-label">Weight</td>
+            <td class="info-value">{{ patient_weight }}</td>
+            <td class="info-label">Height</td>
+            <td class="info-value">{{ patient_height }}</td>
+        </tr>
+    </table>
+
+    <table class="result-table">
+        <tr>
+            <td style="width: 65%;">
+                <div class="result-model-tag">{{ model_label }}</div>
+                <div class="result-prediction">{{ prediction }}</div>
+            </td>
+            <td style="width: 35%; text-align: right;">
+                <span class="confidence-badge">{{ confidence }}% confidence</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding-top: 0;">
+                <div class="confidence-gauge-bg">
+                    <div class="confidence-gauge-fill" style="width: {{ confidence }}%;"></div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    {% if symptom_duration or known_allergies or current_medications %}
+    <div class="section-heading">Symptom History</div>
+    <table class="info-table">
+        {% if symptom_duration %}
+        <tr>
+            <td class="info-label">Duration</td>
+            <td class="info-value" colspan="3">{{ symptom_duration }}</td>
+        </tr>
+        {% endif %}
+        {% if known_allergies %}
+        <tr>
+            <td class="info-label">Allergies</td>
+            <td class="info-value" colspan="3">{{ known_allergies }}</td>
+        </tr>
+        {% endif %}
+        {% if current_medications %}
+        <tr>
+            <td class="info-label">Medications</td>
+            <td class="info-value" colspan="3">{{ current_medications }}</td>
+        </tr>
+        {% endif %}
+    </table>
+    {% endif %}
+
+    {% if condition_description %}
+    <div class="section-heading">What This Means</div>
+    <div class="content-section">
+        <p>{{ condition_description }}</p>
+    </div>
+    {% endif %}
+
+    {% if image_base64 %}
+    <div class="section-heading">Analyzed Image</div>
+    <div class="image-frame">
+        <img src="data:image/jpeg;base64,{{ image_base64 }}" />
+    </div>
+    {% endif %}
+
+    {% if alternatives %}
+    <div class="section-heading">Other Possible Matches</div>
+    <div class="content-section">
+        {% for alt in alternatives %}
+        <div class="alt-row">
+            <div class="alt-label">{{ alt.label }} &mdash; {{ alt.confidence }}%</div>
+            <div class="alt-bar-bg">
+                <div class="alt-bar-fill" style="width: {{ alt.confidence }}%;"></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if home_care %}
+    <div class="section-heading">Home Care Suggestions</div>
+    <ul class="styled-list">
+    {% for item in home_care %}
+        <li>{{ item }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if treatment_guidance %}
+    <div class="section-heading">General Guidance</div>
+    <ul class="styled-list">
+    {% for item in treatment_guidance %}
+        <li>{{ item }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if follow_up %}
+    <div class="section-heading">Follow-Up Recommendation</div>
+    <div class="content-section">
+        <p>{{ follow_up }}</p>
+    </div>
+    {% endif %}
+
+    {% if when_to_see_doctor %}
+    <div class="doctor-callout">
+        <div class="title">When to See a Doctor</div>
+        <div>{{ when_to_see_doctor }}</div>
+    </div>
+    {% endif %}
+
+    <div class="disclaimer-box">
+        <strong>Disclaimer:</strong> This report is generated by an AI-assisted educational tool and is
+        NOT a confirmed medical diagnosis. The predictions are based on a machine learning model trained
+        on publicly available datasets and may not be accurate. Please consult a licensed dermatologist
+        or healthcare professional for any skin health concerns.
+    </div>
+
+    <table style="width: 100%; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+        <tr>
+            <td style="font-size: 9px; color: #94a3b8; width: 50%;">
+                Reviewed by: ________________________
+            </td>
+            <td style="font-size: 9px; color: #94a3b8; width: 50%; text-align: right;">
+                Signature / Date: ________________________
+            </td>
+        </tr>
+    </table>
+
+    <div class="footer">
+        Generated by SkinConsult 24/7 &middot; {{ report_date }}<br/>
+        {% if model_version_note %}<span style="color: #cbd5e1;">{{ model_version_note }}</span>{% endif %}
+    </div>
+
+</div>
+
+</body>
+</html>

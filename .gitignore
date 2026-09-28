@@ -5,3 +5,5 @@ __pycache__/
 kaggle.json
 /models
 mlruns/
+node_modules/
+dist/

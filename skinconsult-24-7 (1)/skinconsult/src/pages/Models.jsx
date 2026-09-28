@@ -1,0 +1,126 @@
+import { motion } from "framer-motion";
+import { Cpu, Database, Layers, Activity, ScanEye } from "lucide-react";
+import Layout from "../components/ui/Layout";
+import SectionHeading from "../components/ui/SectionHeading";
+import GlassCard from "../components/ui/GlassCard";
+import SkinCellBackground from "../components/skin/SkinCellBackground";
+
+const MODELS = [
+  {
+    name: "DermNet Model",
+    purpose: "General dermatological condition classification from skin images.",
+    dataset: "DermNet-style dermatology image dataset",
+    classes: "Multiple common dermatological conditions",
+    architecture: "Convolutional neural network (planned)",
+    status: "Not yet trained",
+    integration: "Interface prepared, not connected",
+  },
+  {
+    name: "HAM10000 Model",
+    purpose: "Pigmented skin lesion classification.",
+    dataset: "HAM10000 (Human Against Machine with 10000 training images)",
+    classes: "7 diagnostic categories of pigmented lesions",
+    architecture: "CNN-based classifier (planned)",
+    status: "Not yet trained",
+    integration: "Interface prepared, not connected",
+  },
+  {
+    name: "Burn Classification Model",
+    purpose: "Burn severity estimation from skin images.",
+    dataset: "Burn severity image dataset",
+    classes: "Superficial, partial-thickness, full-thickness",
+    architecture: "CNN-based severity classifier (planned)",
+    status: "Not yet trained",
+    integration: "Interface prepared, not connected",
+  },
+];
+
+const EXPLAIN_STEPS = ["Original Image", "Feature Analysis", "Region Focus", "Prediction"];
+
+export default function Models() {
+  return (
+    <Layout>
+      <section className="relative overflow-hidden px-4 py-16 sm:px-6 lg:px-8">
+        <SkinCellBackground variant="neural" />
+        <SectionHeading
+          eyebrow="Under the Hood"
+          title="AI Models"
+          subtitle="SkinConsult 24/7 is built around a set of specialized skin-analysis models. Metrics are shown only once models are evaluated."
+        />
+
+        <div className="relative mx-auto mt-14 grid max-w-6xl gap-6 md:grid-cols-3">
+          {MODELS.map((m, i) => (
+            <motion.div
+              key={m.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <GlassCard className="p-6">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent-1)]">
+                  <Cpu className="h-5 w-5" />
+                </span>
+                <h3 className="mt-4 font-semibold text-[var(--text)]">{m.name}</h3>
+                <dl className="mt-4 space-y-2 text-xs">
+                  <Row icon={Layers} label="Purpose" value={m.purpose} />
+                  <Row icon={Database} label="Dataset" value={m.dataset} />
+                  <Row icon={Activity} label="Classes" value={m.classes} />
+                  <Row icon={Cpu} label="Architecture" value={m.architecture} />
+                </dl>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <span className="rounded-full bg-amber-100 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-700">
+                    {m.status}
+                  </span>
+                  <span className="rounded-full bg-[var(--accent-soft)] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--accent-2)]">
+                    {m.integration}
+                  </span>
+                </div>
+                <p className="mt-4 text-[10px] italic text-[var(--text-faint)]">
+                  Metrics will be displayed after model evaluation.
+                </p>
+              </GlassCard>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Explainable AI */}
+        <div className="relative mx-auto mt-20 max-w-4xl">
+          <SectionHeading eyebrow="Transparency" title="See How AI Analyzes" />
+          <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {EXPLAIN_STEPS.map((step, i) => (
+              <motion.div
+                key={step}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <GlassCard className="flex flex-col items-center gap-2 p-5 text-center">
+                  <ScanEye className="h-6 w-6 text-[var(--accent-1)]" />
+                  <p className="text-xs font-semibold text-[var(--text)]">{step}</p>
+                </GlassCard>
+              </motion.div>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-xs italic text-[var(--text-faint)]">
+            Prototype Visualization — this sequence illustrates the concept of explainable AI and is not
+            generated by the actual model until full ML integration is complete.
+          </p>
+        </div>
+      </section>
+    </Layout>
+  );
+}
+
+function Row({ icon: Icon, label, value }) {
+  return (
+    <div className="flex gap-2">
+      <Icon className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[var(--text-faint)]" />
+      <div>
+        <span className="font-semibold text-[var(--text-muted)]">{label}: </span>
+        <span className="text-[var(--text-muted)]">{value}</span>
+      </div>
+    </div>
+  );
+}

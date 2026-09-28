@@ -1,0 +1,225 @@
+// Answer scores are on a 0-3 scale (3 = best habit, 0 = worst),
+// mapped deterministically in quizScoring.js — no AI/LLM involved.
+
+export const QUIZ_QUESTIONS = [
+  {
+    id: 1,
+    category: "Skincare Routine",
+    question: "How often do you wash your face?",
+    options: [
+      { label: "Once a day", score: 1 },
+      { label: "Twice a day", score: 3 },
+      { label: "More than twice a day", score: 1 },
+      { label: "Rarely", score: 0 },
+    ],
+  },
+  {
+    id: 2,
+    category: "Skincare Routine",
+    question: "Do you use a moisturizer?",
+    options: [
+      { label: "Yes, daily", score: 3 },
+      { label: "Sometimes", score: 2 },
+      { label: "Rarely", score: 1 },
+      { label: "Never", score: 0 },
+    ],
+  },
+  {
+    id: 3,
+    category: "Sun Protection",
+    question: "Do you use sunscreen when going outside?",
+    options: [
+      { label: "Always", score: 3 },
+      { label: "Often", score: 2 },
+      { label: "Rarely", score: 1 },
+      { label: "Never", score: 0 },
+    ],
+  },
+  {
+    id: 4,
+    category: "Hydration",
+    question: "How much water do you usually drink in a day?",
+    options: [
+      { label: "Less than 1 liter", score: 0 },
+      { label: "1–2 liters", score: 2 },
+      { label: "2–3 liters", score: 3 },
+      { label: "More than 3 liters", score: 2 },
+    ],
+  },
+  {
+    id: 5,
+    category: "Sleep",
+    question: "How many hours do you usually sleep?",
+    options: [
+      { label: "Less than 5 hours", score: 0 },
+      { label: "5–6 hours", score: 1 },
+      { label: "7–8 hours", score: 3 },
+      { label: "More than 9 hours", score: 2 },
+    ],
+  },
+  {
+    id: 6,
+    category: "Nutrition",
+    question: "How often do you eat fruits and vegetables?",
+    options: [
+      { label: "Rarely", score: 0 },
+      { label: "A few times a week", score: 1 },
+      { label: "Once a day", score: 2 },
+      { label: "Multiple times a day", score: 3 },
+    ],
+  },
+  {
+    id: 7,
+    category: "Nutrition",
+    question: "How often do you eat fast food or highly processed food?",
+    options: [
+      { label: "Rarely", score: 3 },
+      { label: "A few times a week", score: 2 },
+      { label: "Almost daily", score: 1 },
+      { label: "Multiple times a day", score: 0 },
+    ],
+  },
+  {
+    id: 8,
+    category: "Hygiene",
+    question: "Do you touch or scratch your face frequently?",
+    options: [
+      { label: "Never", score: 3 },
+      { label: "Rarely", score: 2 },
+      { label: "Often", score: 1 },
+      { label: "Constantly", score: 0 },
+    ],
+  },
+  {
+    id: 9,
+    category: "Hygiene",
+    question: "Do you remove makeup before going to sleep?",
+    options: [
+      { label: "Always", score: 3 },
+      { label: "Usually", score: 2 },
+      { label: "Rarely", score: 1 },
+      { label: "I don't wear makeup", score: 3 },
+    ],
+  },
+  {
+    id: 10,
+    category: "Hygiene",
+    question: "How often do you change your pillowcase?",
+    options: [
+      { label: "Weekly", score: 3 },
+      { label: "Every 2 weeks", score: 2 },
+      { label: "Monthly", score: 1 },
+      { label: "Rarely", score: 0 },
+    ],
+  },
+  {
+    id: 11,
+    category: "Exercise",
+    question: "Do you exercise regularly?",
+    options: [
+      { label: "Yes, most days", score: 3 },
+      { label: "A few times a week", score: 2 },
+      { label: "Occasionally", score: 1 },
+      { label: "Never", score: 0 },
+    ],
+  },
+  {
+    id: 12,
+    category: "Hygiene",
+    question: "After exercising or sweating, how soon do you clean your face/body?",
+    options: [
+      { label: "Immediately after", score: 3 },
+      { label: "Within an hour", score: 2 },
+      { label: "After a few hours", score: 1 },
+      { label: "I don't clean up right away", score: 0 },
+    ],
+  },
+  {
+    id: 13,
+    category: "Skincare Routine",
+    question: "How often do you use harsh scrubs or exfoliating products?",
+    options: [
+      { label: "Never", score: 2 },
+      { label: "Once a week", score: 3 },
+      { label: "A few times a week", score: 1 },
+      { label: "Daily", score: 0 },
+    ],
+  },
+  {
+    id: 14,
+    category: "Lifestyle",
+    question: "How often do you smoke or are you exposed to cigarette smoke?",
+    options: [
+      { label: "Never", score: 3 },
+      { label: "Rarely", score: 2 },
+      { label: "Occasionally", score: 1 },
+      { label: "Frequently", score: 0 },
+    ],
+  },
+  {
+    id: 15,
+    category: "Nutrition",
+    question: "How often do you consume sugary drinks or sweets?",
+    options: [
+      { label: "Rarely", score: 3 },
+      { label: "A few times a week", score: 2 },
+      { label: "Daily", score: 1 },
+      { label: "Multiple times a day", score: 0 },
+    ],
+  },
+  {
+    id: 16,
+    category: "Sun Protection",
+    question: "How often are you exposed to direct sunlight for long periods?",
+    options: [
+      { label: "Rarely", score: 3 },
+      { label: "Occasionally", score: 2 },
+      { label: "Often", score: 1 },
+      { label: "Almost daily", score: 0 },
+    ],
+  },
+  {
+    id: 17,
+    category: "Sun Protection",
+    question: "Do you usually wear protective clothing or use an umbrella in strong sunlight?",
+    options: [
+      { label: "Always", score: 3 },
+      { label: "Sometimes", score: 2 },
+      { label: "Rarely", score: 1 },
+      { label: "Never", score: 0 },
+    ],
+  },
+  {
+    id: 18,
+    category: "Skin Comfort",
+    question: "How often do you feel your skin is dry or tight?",
+    options: [
+      { label: "Never", score: 3 },
+      { label: "Occasionally", score: 2 },
+      { label: "Often", score: 1 },
+      { label: "Almost always", score: 0 },
+    ],
+  },
+  {
+    id: 19,
+    category: "Skin Comfort",
+    question: "How often does your skin become excessively oily?",
+    options: [
+      { label: "Never", score: 3 },
+      { label: "Occasionally", score: 2 },
+      { label: "Often", score: 1 },
+      { label: "Almost always", score: 0 },
+    ],
+  },
+  {
+    id: 20,
+    category: "Skin Comfort",
+    question: "How would you rate your overall skin health today?",
+    options: [
+      { label: "Excellent", score: 3 },
+      { label: "Good", score: 2 },
+      { label: "Fair", score: 1 },
+      { label: "Poor", score: 0 },
+    ],
+  },
+];
