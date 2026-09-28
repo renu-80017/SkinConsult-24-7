@@ -7,3 +7,4 @@ kaggle.json
 mlruns/
 node_modules/
 dist/
+*.db
