@@ -1,0 +1,6 @@
+outs:
+- md5: 41c7ca7a8c9661550f92a4240d4b716a.dir
+  size: 1850517236
+  nfiles: 19559
+  hash: md5
+  path: dermnet

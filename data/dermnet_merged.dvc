@@ -1,0 +1,6 @@
+outs:
+- md5: fca2ebbbc7c214037cef8405da41e760.dir
+  size: 1446499768
+  nfiles: 15187
+  hash: md5
+  path: dermnet_merged

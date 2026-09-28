@@ -1,9 +1,5 @@
-﻿.venv/
-data/
-models/
+.venv/
 __pycache__/
 *.pyc
 .env
 kaggle.json
-.venv/
-__pycache__/

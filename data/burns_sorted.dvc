@@ -1,0 +1,6 @@
+outs:
+- md5: fada93e5c39bfc88a0746e96a62a1028.dir
+  size: 17397160
+  nfiles: 1223
+  hash: md5
+  path: burns_sorted
