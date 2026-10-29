@@ -1,0 +1,10 @@
+.venv
+data
+mlruns
+mlflow.db
+*.db
+__pycache__
+.idea
+.git
+training
+skinconsult-24-7 (1)
