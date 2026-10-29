@@ -12,7 +12,7 @@ const MODELS = [
     dataset: "DermNet-style dermatology image dataset",
     classes: "Multiple common dermatological conditions",
     architecture: "Convolutional neural network (planned)",
-    status: "Not yet trained",
+    status: "Training in progress",
     integration: "Interface prepared, not connected",
   },
   {
@@ -21,7 +21,7 @@ const MODELS = [
     dataset: "HAM10000 (Human Against Machine with 10000 training images)",
     classes: "7 diagnostic categories of pigmented lesions",
     architecture: "CNN-based classifier (planned)",
-    status: "Not yet trained",
+    status: "Training in progress",
     integration: "Interface prepared, not connected",
   },
   {
@@ -30,7 +30,7 @@ const MODELS = [
     dataset: "Burn severity image dataset",
     classes: "Superficial, partial-thickness, full-thickness",
     architecture: "CNN-based severity classifier (planned)",
-    status: "Not yet trained",
+    status: "Training in progress",
     integration: "Interface prepared, not connected",
   },
 ];

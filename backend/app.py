@@ -5,12 +5,13 @@ Loads all 3 trained models at startup, handles auth, PDF report
 generation (Analyzer + AI Doctor chat), and the AI Doctor endpoint
 (local Ollama).
 
-Run with:
-    uvicorn backend.app:app --reload
+Run with (from the project root):
+    uvicorn backend.app:app --reload --port 8000
 """
 
 import json
 import io
+import os
 import requests
 from pathlib import Path
 from datetime import datetime
@@ -45,9 +46,9 @@ MODELS_DIR = Path("models")
 IMG_SIZE = (224, 224)
 
 MODEL_FILES = {
-    "dermnet": "dermnet_model.h5",
+    "dermnet": "dermnet_model_v2.h5",
     "ham10000": "ham10000_model.h5",
-    "burns": "burns_model.h5",
+    "burns": "burns_model_v2.h5",
 }
 
 CLASS_INDEX_FILES = {
@@ -63,7 +64,7 @@ MODEL_LABELS = {
 }
 
 # --- Ollama config ---
-OLLAMA_URL = "http://localhost:11434/api/chat"
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/chat")
 OLLAMA_MODEL = "llama3.2:latest"
 OLLAMA_VISION_MODEL = "llava:7b"
 
@@ -98,7 +99,7 @@ class_names = {}
 print("Loading models...")
 for model_type, filename in MODEL_FILES.items():
     model_path = MODELS_DIR / filename
-    models[model_type] = load_model(model_path)
+    models[model_type] = load_model(model_path, compile=False)
 
     with open(MODELS_DIR / CLASS_INDEX_FILES[model_type]) as f:
         class_indices = json.load(f)
@@ -116,7 +117,7 @@ seed_demo_account()
 
 def preprocess_image(image_bytes: bytes) -> np.ndarray:
     img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-    img = img.resize(IMG_SIZE)
+    img = img.resize(IMG_SIZE, Image.NEAREST)  # same resizing as training
     arr = np.array(img)
     arr = np.expand_dims(arr, axis=0)
     arr = preprocess_input(arr)
@@ -193,7 +194,7 @@ async def predict(
         raise HTTPException(status_code=400, detail=f"Could not process image: {e}")
 
     model = models[model_type]
-    predictions = model.predict(input_array)[0]
+    predictions = model.predict(input_array, verbose=0)[0]
 
     predicted_index = int(np.argmax(predictions))
     predicted_class = class_names[model_type][predicted_index]
@@ -239,7 +240,7 @@ async def generate_report(payload: dict = Body(...)):
     )
 
 
-# --- AI Doctor chat report (NEW) ---
+# --- AI Doctor chat report ---
 @app.post("/generate-chat-report")
 async def generate_chat_report(payload: ChatReportRequest):
     template = jinja_env.get_template("chat_report_template.html")

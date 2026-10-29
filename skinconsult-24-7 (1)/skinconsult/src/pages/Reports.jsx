@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Search, FileText, Eye, Download, Trash2, Inbox } from "lucide-react";
+import { Search, FileText, Eye, Download, Trash2, Inbox, Award, ShieldCheck } from "lucide-react";
 import Layout from "../components/ui/Layout";
 import SectionHeading from "../components/ui/SectionHeading";
 import GlassCard from "../components/ui/GlassCard";
@@ -28,12 +28,13 @@ const FILTERS = [
   { id: "analysis", label: "Analysis" },
   { id: "quiz", label: "Quiz" },
   { id: "conversation", label: "Chat" },
+  { id: "certificates", label: "Certificates" },
 ];
 
 const TYPE_LABEL = { analysis: "AI Analysis", quiz: "Skin Health Quiz", conversation: "AI Conversation" };
 
 export default function Reports() {
-  const { reports, deleteReport } = useReports();
+  const { reports, deleteReport, certificates } = useReports();
   const { push } = useToast();
   const navigate = useNavigate();
   const [filter, setFilter] = useState("all");
@@ -78,6 +79,16 @@ export default function Reports() {
     });
   }, [allReports, filter, query]);
 
+  const filteredCertificates = useMemo(() => {
+    return certificates.filter((c) => {
+      const matchesQuery =
+        !query ||
+        c.patientName?.toLowerCase().includes(query.toLowerCase()) ||
+        c.id.toLowerCase().includes(query.toLowerCase());
+      return matchesQuery;
+    });
+  }, [certificates, query]);
+
   const handleDownloadPdf = async (r) => {
     if (r.source !== "backend") {
       if (r.pdfBase64) {
@@ -118,6 +129,8 @@ export default function Reports() {
     }
   };
 
+  const isCertTab = filter === "certificates";
+
   return (
     <Layout>
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
@@ -150,7 +163,66 @@ export default function Reports() {
           </div>
         </div>
 
-        {filtered.length === 0 ? (
+        {isCertTab ? (
+          filteredCertificates.length === 0 ? (
+            <div className="mt-16 flex flex-col items-center gap-3 text-center">
+              <Award className="h-10 w-10 text-[var(--text-faint)]" />
+              <p className="text-[var(--text-muted)]">No certificates yet.</p>
+            </div>
+          ) : (
+            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredCertificates.map((c, i) => (
+                <motion.div
+                  key={c.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                >
+                  <GlassCard className="flex h-full flex-col p-6">
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent-1)]">
+                        <Award className="h-5 w-5" />
+                      </span>
+                      <span className="rounded-full bg-[var(--accent-soft)] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--accent-2)]">
+                        {c.mode === "quiz" ? "Quiz" : "Assessment"}
+                      </span>
+                    </div>
+                    <h3 className="mt-4 font-semibold text-[var(--text)]">
+                      {c.mode === "quiz" ? "Skin Health Certificate" : "AI Assessment Certificate"}
+                    </h3>
+                    <p className="text-xs text-[var(--text-faint)]">{c.id}</p>
+                    <p className="mt-1 text-xs text-[var(--text-muted)]">
+                      {new Date(c.issuedAt).toLocaleDateString()} · {c.patientName || "Guest User"}
+                    </p>
+                    {c.mode === "quiz" ? (
+                      <p className="mt-2 text-sm font-medium text-[var(--text)]">
+                        Score {c.quizScore}/100 · Grade {c.quizGrade}
+                      </p>
+                    ) : (
+                      <p className="mt-2 text-sm font-medium text-[var(--text)]">
+                        {c.prediction || "No Clear Match"} {c.confidence ? `· ${c.confidence}%` : ""}
+                      </p>
+                    )}
+                    <div className="mt-auto flex gap-2 pt-4">
+                      <button
+                        onClick={() => navigate(`/certificate?id=${encodeURIComponent(c.id)}`)}
+                        className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-[var(--border)] py-2 text-xs font-semibold text-[var(--text)] hover:border-[var(--accent-1)]"
+                      >
+                        <Award className="h-3.5 w-3.5" /> View Certificate
+                      </button>
+                      <button
+                        onClick={() => navigate(`/verify-certificate?id=${encodeURIComponent(c.id)}`)}
+                        className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-[var(--border)] py-2 text-xs font-semibold text-[var(--text)] hover:border-[var(--accent-1)]"
+                      >
+                        <ShieldCheck className="h-3.5 w-3.5" /> Verify
+                      </button>
+                    </div>
+                  </GlassCard>
+                </motion.div>
+              ))}
+            </div>
+          )
+        ) : filtered.length === 0 ? (
           <div className="mt-16 flex flex-col items-center gap-3 text-center">
             <Inbox className="h-10 w-10 text-[var(--text-faint)]" />
             <p className="text-[var(--text-muted)]">No reports found yet.</p>

@@ -177,21 +177,21 @@ export default function AIDoctor() {
       });
 
       const base64Pdf = await blobToBase64(pdfBlob);
-      const reportId = "SC-" + Date.now().toString().slice(-6);
 
-      addReport({
-        id: reportId,
-        type: "chat",
-        title: "AI Doctor Consultation",
-        date: new Date().toISOString(),
-        patientName: user?.full_name || "Guest",
-        condition: "AI Doctor Consultation",
-        confidence: null,
-        pdfData: base64Pdf,
+      // short conversation summary shown inline on the report page
+      const conversationSummary = chatHistory.map(
+        (m) => `${m.role === "user" ? "You" : "AI Doctor"}: ${m.content}`
+      );
+
+      const newReport = addReport({
+        type: "conversation",
+        patient: { name: user?.full_name || null },
+        conversationSummary,
+        pdfBase64: base64Pdf,
       });
 
       push("Your consultation report has been saved to Reports.", "success");
-      navigate(`/reports/${reportId}`);
+      navigate(`/reports/${newReport.id}`);
     } catch (err) {
       push(err.message || "We couldn't generate your report right now. Please try again.", "error");
     } finally {

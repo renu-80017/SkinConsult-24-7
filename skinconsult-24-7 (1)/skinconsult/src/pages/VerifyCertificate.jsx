@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams } from "react-router-dom";
 import { ShieldCheck, ShieldAlert, Search } from "lucide-react";
 import Layout from "../components/ui/Layout";
 import GlassCard from "../components/ui/GlassCard";
@@ -8,14 +9,16 @@ import SkinCellBackground from "../components/skin/SkinCellBackground";
 import { useReports } from "../context/ReportsContext";
 
 export default function VerifyCertificate() {
-  const [id, setId] = useState("");
+  const [searchParams] = useSearchParams();
+  const urlId = searchParams.get("id") || "";
+
+  const [id, setId] = useState(urlId);
   const [result, setResult] = useState(null); // null | "valid" | "invalid"
   const [cert, setCert] = useState(null);
   const { verifyCertificate } = useReports();
 
-  const handleVerify = (e) => {
-    e.preventDefault();
-    const found = verifyCertificate(id);
+  const runVerify = (rawId) => {
+    const found = verifyCertificate(rawId);
     if (found) {
       setCert(found);
       setResult("valid");
@@ -23,6 +26,21 @@ export default function VerifyCertificate() {
       setCert(null);
       setResult("invalid");
     }
+  };
+
+  // Auto-verify when arriving with ?id=... in the URL (same pattern as
+  // Certificate.jsx / Reports "View" links) instead of requiring manual entry.
+  useEffect(() => {
+    if (urlId) {
+      setId(urlId);
+      runVerify(urlId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlId]);
+
+  const handleVerify = (e) => {
+    e.preventDefault();
+    runVerify(id);
   };
 
   return (

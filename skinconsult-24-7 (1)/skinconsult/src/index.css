@@ -32,6 +32,20 @@
 
   --shadow-soft: 0 10px 40px -12px rgba(15, 23, 42, 0.14);
   --shadow-glow: 0 0 40px -8px rgba(56, 189, 248, 0.45);
+
+  /* Decorative background artwork (SkinCellBackground) */
+  --deco-stroke: #1e3a8a;
+  --deco-stroke-alt: #5b21b6;
+  --deco-accent: #0e7490;
+  --deco-line-opacity: 0.34;
+  --deco-flow-opacity: 0.55;
+  --deco-epidermis-opacity: 0.26;
+  --deco-sparkle-opacity: 0.1;
+  --deco-wash-opacity: 0.85;
+  --deco-glow-ice: var(--sc-ice);
+  --deco-glow-cyan: var(--sc-cyan);
+  --deco-glow-violet: var(--sc-violet);
+  --deco-glow-opacity: 0.55;
 }
 
 [data-theme="frosted-medical"] {
@@ -81,6 +95,19 @@
   --text-faint: #64748b;
   --accent-soft: rgba(56, 189, 248, 0.08);
   --shadow-soft: 0 10px 40px -12px rgba(0, 0, 0, 0.6);
+
+  --deco-stroke: #a5b4fc;
+  --deco-stroke-alt: #c4b5fd;
+  --deco-accent: #67e8f9;
+  --deco-line-opacity: 0.45;
+  --deco-flow-opacity: 0.6;
+  --deco-epidermis-opacity: 0.4;
+  --deco-sparkle-opacity: 0.14;
+  --deco-wash-opacity: 1;
+  --deco-glow-ice: #7dd3fc;
+  --deco-glow-cyan: #67e8f9;
+  --deco-glow-violet: #a78bfa;
+  --deco-glow-opacity: 0.6;
 }
 
 * {
@@ -228,9 +255,9 @@ body {
 
 /* Deliberately quiet, edge-only dermatology illustration used behind content. */
 .skin-health-background {
-  --skin-pattern-ink: #1e3a8a;
-  --skin-pattern-violet: #5b21b6;
-  --skin-pattern-cyan: #0e7490;
+  --skin-pattern-ink: var(--deco-stroke);
+  --skin-pattern-violet: var(--deco-stroke-alt);
+  --skin-pattern-cyan: var(--deco-accent);
   color: var(--skin-pattern-ink);
   isolation: isolate;
 }
@@ -242,7 +269,7 @@ body {
     radial-gradient(42% 46% at 100% 80%, color-mix(in srgb, var(--sc-violet) 11%, transparent), transparent 74%),
     radial-gradient(56% 34% at 42% 95%, color-mix(in srgb, var(--sc-violet) 9%, transparent), transparent 82%),
     linear-gradient(130deg, transparent 35%, color-mix(in srgb, var(--accent-soft) 40%, transparent) 100%);
-  opacity: 0.85;
+  opacity: var(--deco-wash-opacity);
 }
 
 /* Soft, large-radius ambient light spots layered under the line art for a premium glow. */
@@ -254,7 +281,7 @@ body {
   position: absolute;
   border-radius: 999px;
   filter: blur(46px);
-  opacity: 0.55;
+  opacity: var(--deco-glow-opacity);
 }
 
 .skin-health-background__glow-orb--ice {
@@ -262,7 +289,7 @@ body {
   top: 28%;
   width: 30%;
   height: 42%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--sc-ice) 55%, transparent), transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--deco-glow-ice) 55%, transparent), transparent 70%);
 }
 
 .skin-health-background__glow-orb--cyan {
@@ -270,7 +297,7 @@ body {
   top: 46%;
   width: 32%;
   height: 34%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--sc-cyan) 55%, transparent), transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--deco-glow-cyan) 55%, transparent), transparent 70%);
 }
 
 .skin-health-background__glow-orb--violet {
@@ -278,7 +305,7 @@ body {
   bottom: 4%;
   width: 26%;
   height: 22%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--sc-violet) 50%, transparent), transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--deco-glow-violet) 50%, transparent), transparent 70%);
 }
 
 .skin-health-background__glow-orb--violet-top {
@@ -286,7 +313,7 @@ body {
   top: 4%;
   width: 20%;
   height: 20%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--sc-violet) 45%, transparent), transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--deco-glow-violet) 45%, transparent), transparent 70%);
 }
 
 .skin-health-background__line {
@@ -294,7 +321,7 @@ body {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.15;
-  opacity: 0.34;
+  opacity: var(--deco-line-opacity);
   filter: drop-shadow(0 0 3px color-mix(in srgb, var(--skin-pattern-cyan) 45%, transparent))
     drop-shadow(0 0 9px color-mix(in srgb, var(--skin-pattern-ink) 20%, transparent));
 }
@@ -319,7 +346,7 @@ body {
   stroke: url(#skin-health-flow);
   stroke-linecap: round;
   stroke-width: 1.2;
-  opacity: 0.55;
+  opacity: var(--deco-flow-opacity);
   filter: drop-shadow(0 0 6px color-mix(in srgb, var(--sc-cyan) 35%, transparent));
 }
 
@@ -331,7 +358,7 @@ body {
   stroke: var(--skin-pattern-cyan);
   stroke-linecap: round;
   stroke-width: 0.9;
-  opacity: 0.26;
+  opacity: var(--deco-epidermis-opacity);
   filter: drop-shadow(0 0 5px color-mix(in srgb, var(--sc-cyan) 40%, transparent));
 }
 
@@ -341,7 +368,7 @@ body {
 
 .skin-health-background__sparkles circle {
   fill: var(--skin-pattern-ink);
-  opacity: 0.1;
+  opacity: var(--deco-sparkle-opacity);
 }
 
 .skin-health-background__sparkles circle:nth-child(2),
@@ -349,27 +376,19 @@ body {
   fill: var(--skin-pattern-violet);
 }
 
-.dark .skin-health-background__line,
-.dark .skin-health-background__flow,
-.dark .skin-health-background__epidermis {
-  opacity: 0.18;
-}
-
-.dark .skin-health-background {
-  --skin-pattern-ink: #7dd3fc;
-  --skin-pattern-violet: #c4b5fd;
-  --skin-pattern-cyan: #67e8f9;
-}
-
-.dark .skin-health-background__glow-orb {
-  opacity: 0.35;
-}
-
 @media (max-width: 640px) {
-  .skin-health-background__line,
-  .skin-health-background__flow,
-  .skin-health-background__epidermis {
-    opacity: 0.2;
+  :root {
+    --deco-line-opacity: 0.2;
+    --deco-flow-opacity: 0.2;
+    --deco-epidermis-opacity: 0.2;
+    --deco-glow-opacity: 0.4;
+  }
+
+  .dark {
+    --deco-line-opacity: 0.3;
+    --deco-flow-opacity: 0.3;
+    --deco-epidermis-opacity: 0.3;
+    --deco-glow-opacity: 0.45;
   }
 
   .skin-health-background__molecule,
@@ -379,6 +398,5 @@ body {
 
   .skin-health-background__glow-orb {
     filter: blur(28px);
-    opacity: 0.4;
   }
 }

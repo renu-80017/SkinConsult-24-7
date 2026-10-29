@@ -1,9 +1,9 @@
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
-import html2canvas from "html2canvas";
+import { toCanvas } from "html-to-image";
 import jsPDF from "jspdf";
 import {
-  Sparkles,
+  Award,
   ShieldCheck,
   Share2,
   Download,
@@ -39,6 +39,7 @@ export default function CertificateCanvas({
   imageDataUrl,
   quizScore,
   quizGrade,
+  autoDownload, // "png" | "pdf" | undefined — triggers that download once, on mount
   // Legacy/back-compat props
   playerName,
   totalScore,
@@ -86,17 +87,14 @@ export default function CertificateCanvas({
     if (!certRef.current) return;
     setDownloading(true);
     try {
-      const canvas = await html2canvas(certRef.current, {
-        scale: 2,
-        backgroundColor: null,
-        useCORS: true,
-      });
+      const canvas = await toCanvas(certRef.current, { pixelRatio: 2 });
       const link = document.createElement("a");
       link.download = `skinconsult_certificate_${fileSafeName}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
       onDownloadSuccess();
-    } catch {
+    } catch (err) {
+      console.error("Certificate download error:", err);
       push("Unable to generate certificate image.", "error");
     } finally {
       setDownloading(false);
@@ -107,17 +105,14 @@ export default function CertificateCanvas({
     if (!certRef.current) return;
     setDownloading(true);
     try {
-      const canvas = await html2canvas(certRef.current, {
-        scale: 2,
-        backgroundColor: "#ffffff",
-        useCORS: true,
-      });
+      const canvas = await toCanvas(certRef.current, { pixelRatio: 2, backgroundColor: "#ffffff" });
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({ orientation: "landscape", unit: "px", format: [canvas.width, canvas.height] });
       pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
       pdf.save(`skinconsult_certificate_${fileSafeName}.pdf`);
       onDownloadSuccess();
-    } catch {
+    } catch (err) {
+      console.error("Certificate download error:", err);
       push("Unable to generate certificate PDF.", "error");
     } finally {
       setDownloading(false);
@@ -144,6 +139,12 @@ export default function CertificateCanvas({
       /* user cancelled share — no-op */
     }
   };
+
+  useEffect(() => {
+    if (autoDownload === "pdf") handleDownloadPDF();
+    else if (autoDownload === "png") handleDownloadPNG();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoDownload]);
 
   return (
     <div className={`flex flex-col items-center gap-6 ${className}`}>
@@ -182,8 +183,8 @@ export default function CertificateCanvas({
             <CertificateBackground />
 
             {/* Watermark */}
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <span className="select-none text-[9vw] font-black uppercase tracking-widest text-slate-900 opacity-[0.025]">
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
+              <span className="select-none whitespace-nowrap text-5xl sm:text-6xl md:text-7xl font-black uppercase tracking-widest text-slate-900 opacity-[0.035]">
                 SkinConsult
               </span>
             </div>
@@ -210,18 +211,13 @@ export default function CertificateCanvas({
                   className="relative flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-lg sm:h-14 sm:w-14"
                   style={{ background: "linear-gradient(135deg,#38bdf8,#8b5cf6)" }}
                 >
-                  <Sparkles className="h-6 w-6" />
+                  <Award className="h-6 w-6" />
                   <span className="absolute inset-0 -z-10 animate-pulse-slow rounded-2xl bg-cyan-300/40 blur-xl" />
                 </motion.div>
                 <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.25em] text-slate-400 sm:text-xs">
                   SkinConsult 24/7 · AI Skin Health Assessment
                 </p>
-                <h1
-                  className="mt-1 text-xl font-extrabold uppercase tracking-wide text-slate-800 sm:text-2xl"
-                  style={{
-                    backgroundImage: "linear-gradient(90deg,#0f172a,#0f172a)",
-                  }}
-                >
+                <h1 className="mt-1 text-xl font-extrabold uppercase tracking-wide text-slate-800 sm:text-2xl">
                   Certificate of{" "}
                   <span
                     style={{

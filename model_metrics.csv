@@ -1,0 +1,12 @@
+experiment,run_name,status,start_time,final_val_accuracy,loss,val_loss,val_accuracy,final_train_accuracy,accuracy,store
+SkinConsult - Burns Classifier,burns_mobilenetv2_baseline,FINISHED,2026-09-21 07:12:17.510000+00:00,0.7008,0.3051,0.7474,0.7008,0.8601,0.8601,sqlite:///mlflow.db
+SkinConsult - DermNet Classifier,dermnet_merged_11_full_unfreeze_finetune,FINISHED,2026-09-22 01:47:40.232000+00:00,0.4395,1.5169,1.6113,0.4395,0.4618,0.4618,sqlite:///mlflow.db
+SkinConsult - DermNet Classifier,dermnet_merged_11_categories,FINISHED,2026-09-21 15:17:46.299000+00:00,0.4267,1.4286,1.6564,0.4267,0.4449,0.4449,sqlite:///mlflow.db
+SkinConsult - DermNet Classifier,dermnet_full_unfreeze_finetune,RUNNING,2026-09-21 09:58:43.610000+00:00,,,,,,,sqlite:///mlflow.db
+SkinConsult - DermNet Classifier,dermnet_full_unfreeze_finetune,FAILED,2026-09-21 09:56:37.551000+00:00,,,,,,,sqlite:///mlflow.db
+SkinConsult - DermNet Classifier,dermnet_full_unfreeze_finetune,RUNNING,2026-09-21 09:18:30.499000+00:00,,,,,,,sqlite:///mlflow.db
+SkinConsult - DermNet Classifier,dermnet_full_unfreeze_finetune,FINISHED,2026-09-21 08:48:06.546000+00:00,0.4218,1.6422,1.9429,0.4218,0.4931,0.4931,sqlite:///mlflow.db
+SkinConsult - DermNet Classifier,dermnet_full_unfreeze_finetune,RUNNING,2026-09-21 08:42:10.680000+00:00,,,,,,,sqlite:///mlflow.db
+SkinConsult - DermNet Classifier,dermnet_full_unfreeze_finetune,RUNNING,2026-09-21 08:11:41.221000+00:00,,,,,,,sqlite:///mlflow.db
+SkinConsult - DermNet Classifier,dermnet_full_unfreeze_finetune,RUNNING,2026-09-21 07:29:04.808000+00:00,,1.9121,1.9928,0.4093,,0.4182,sqlite:///mlflow.db
+SkinConsult - HAM10000 Classifier,ham10000_mobilenetv2_baseline,FINISHED,2026-09-21 07:20:28.215000+00:00,0.6515,0.8739,0.9448,0.6515,0.6278,0.6278,sqlite:///mlflow.db
